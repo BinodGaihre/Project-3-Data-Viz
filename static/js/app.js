@@ -34,7 +34,7 @@ function buildCharts(sample) {
     });
 
     filteredData.forEach(function(row) {
-      // Collect data for x (Median_Hhold_Income) and y (Poverty_Rate)
+      // datacollection
       y.push(row["Poverty_Rate"]);
       x.push(row["Median_Hhold_Income"]);
       tract.push(row["tract"]);
@@ -128,7 +128,11 @@ function buildCharts(sample) {
         size: scaledRent,
         color: gradRate,
         colorscale: 'Viridis',
-        showscale: true
+        showscale: true,
+        colorbar: {
+          title: 'Graduation Rate',  // Title for the color scale
+          tickformat: '.0%'
+          }
       },
     }
     let data4 = [trace4];
@@ -145,6 +149,72 @@ function buildCharts(sample) {
 
     // Create the chart
     Plotly.newPlot('bubblechart', data4, layout4);
+
+    let areas = ['Chicago South Side', 'Chicago West Side', 'Chicago North Side',
+      'Chicago Suburbs', 'Chicago East Side'];
+    
+    let metrics = ["Median_Rent", "Median_Hhold_Income", "Poverty_Rate", "College_Graduates", "Short_Work_Commutes"];
+    
+    // Function to calculate data for a given metric
+    function calculateMetricData(d, areas, metric) {
+      let metricArray = [];
+      console.log(d)
+    
+      for (let i = 0; i < areas.length; i++) {
+        let area = areas[i];
+        let count = 0;
+        let total = 0;
+    
+        for (let j = 0; j < d.length; j++) {
+          let row = d[j];
+          if (row.area == area) {
+            total += row[metric];
+            count += 1;
+          }
+        }
+    
+        let meanValue = count > 0 ? total / count : 0;
+        metricArray.push(meanValue);
+      }
+    
+      return metricArray;
+      
+    }
+    
+    // Initial metric to plot
+    let initialMetric = "Median_Hhold_Income";
+    let initialData = calculateMetricData(d, areas, initialMetric);
+    
+    // Set up the initial trace
+    let trace5 = {
+      x: areas,
+      y: initialData,
+      type: "bar",
+      marker :{
+        color :"red"
+      }
+    };
+    let chart = [trace5];
+    
+    // Set up layout with dropdown
+    let layout5 = {
+      title: `Cities/ Chicago Neighborhoods ${initialMetric}`,
+      updatemenus: [{
+        buttons: metrics.map(metric => ({
+          method: 'update',
+          args: [
+            { y: [calculateMetricData(d, areas, metric)] },   // Update Y data
+            { title: `Cities/ Chicago Neighborhoods ${metric}` }  // Update title
+          ],
+          label: metric
+        })),
+        direction: 'down',
+        showactive: true
+      }]
+    };
+    
+    // Create the initial plot
+    Plotly.newPlot("zbar", chart, layout5);
 
   });
 }
