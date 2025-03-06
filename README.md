@@ -9,6 +9,8 @@
 d.js file as a json file for futher data visualization. 
 - "data_cleaning.ipynb" is the juypter notebook used to clean the data from the raw data.
 - "index.html" is the file to see the interactive dashboard.
+- "heatmap_and_other_graphs.ipynb" is the juypter notebook used to create heatmap and other maps to see any information regarding the project.
+- "How to plant a tree_  An Analysis of Social Mobility in Chicago Neighborhoods.pdf" file is the presentation file.
 
 ### Objective
 - Create visualization with respect to the factors of social mobility which is as follows:
@@ -34,4 +36,7 @@ d.js file as a json file for futher data visualization.
 
 ### Reference to basecode.
 - ** https://git.bootcampcontent.com/Northwestern-University/NU-VIRT-DATA-PT-10-2024-U-LOLC/-/blob/main/02-Homework/14-Interactive-Visualizations/Starter_Code/static/js/app.js?ref_type=heads **
+
+### Link To Dashboard
+-** https://binodgaihre.github.io/Project-3-Data-Viz/ **
 
